@@ -1,38 +1,54 @@
 @import "tailwindcss";
 
 /*
-  We define our custom design tokens here using Tailwind v4's @theme block.
-  This replaces tailwind.config.js — all custom colors, fonts, and spacing
-  live here and become available as Tailwind utility classes automatically.
+  Design system — Dark Academia / Victorian
+  ─────────────────────────────────────────
+  Palette draws from aged leather, candlelight, ink, tarnished gold, and wax seals.
+  All custom tokens defined here are automatically available as Tailwind utility
+  classes (e.g. bg-ink-900, text-parchment-100, border-gold-500).
 */
 @theme {
-  /* Colour palette — warm dark literary */
-  --color-navy-950: #0b0f1a;
-  --color-navy-900: #0f1623;
-  --color-navy-800: #161e2e;
-  --color-navy-700: #1e2a3e;
-  --color-navy-600: #263348;
+  /* Ink — warm near-blacks for backgrounds */
+  --color-ink-950: #060402;
+  --color-ink-900: #0d0903;
+  --color-ink-800: #160e05;
+  --color-ink-700: #1f1508;
+  --color-ink-600: #2a1c0b;
+  --color-ink-500: #3a2712;
 
-  --color-cream-50:  #fdf8f0;
-  --color-cream-100: #f5e6c8;
-  --color-cream-200: #ead4a8;
-  --color-cream-300: #dfc28a;
+  /* Parchment — aged paper tones for text */
+  --color-parchment-50:  #faf6ee;
+  --color-parchment-100: #f0e6d0;
+  --color-parchment-200: #deccaa;
+  --color-parchment-300: #c4a87a;
+  --color-parchment-400: #a88855;
 
-  --color-amber-400: #d4a853;
-  --color-amber-500: #c4942f;
-  --color-amber-600: #a97c1f;
+  /* Gold — tarnished gilt accents */
+  --color-gold-200: #f0d98a;
+  --color-gold-300: #e2c060;
+  --color-gold-400: #c9993a;
+  --color-gold-500: #a87a22;
+  --color-gold-600: #7a5510;
 
-  --color-muted: #8899aa;
+  /* Crimson — wax seal red for secondary accents */
+  --color-crimson-400: #a63248;
+  --color-crimson-500: #7e1f33;
+  --color-crimson-600: #5a1223;
 
-  /* Typography */
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans:  "Inter", system-ui, sans-serif;
+  /* Muted — desaturated warm grey */
+  --color-dust: #7a6a55;
+
+  /* Fonts */
+  --font-cinzel:    "Cinzel", serif;
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --font-sans:      "Inter", system-ui, sans-serif;
 }
 
-/* Base styles */
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+
 :root {
-  background-color: var(--color-navy-900);
-  color: var(--color-cream-100);
+  background-color: var(--color-ink-900);
+  color: var(--color-parchment-100);
   font-family: var(--font-sans);
 }
 
@@ -41,14 +57,197 @@ body {
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
+  /* Subtle warm vignette on the page background */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, oklch(20% 0.05 60 / 0.6), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 100%, oklch(12% 0.04 40 / 0.4), transparent);
 }
 
-/* Prose helpers used for book descriptions and reviews */
+/* ─── Typography helpers ────────────────────────────────────────────────────── */
+
+.font-cinzel    { font-family: var(--font-cinzel); }
+.font-cormorant { font-family: var(--font-cormorant); }
+
+/* ─── Ornamental divider ────────────────────────────────────────────────────── */
+/*
+  Usage: <div className="ornament" />
+  Renders a centred decorative line with a diamond glyph.
+*/
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-gold-500);
+  font-size: 0.7rem;
+}
+.ornament::before,
+.ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to var(--ornament-dir, right),
+    transparent,
+    var(--color-gold-600) 40%,
+    var(--color-gold-500)
+  );
+}
+.ornament::after {
+  --ornament-dir: left;
+}
+
+/* ─── Gold glow ─────────────────────────────────────────────────────────────── */
+
+.glow-gold {
+  box-shadow: 0 0 18px 0 oklch(70% 0.15 80 / 0.35);
+}
+
+/* ─── Fancy button ──────────────────────────────────────────────────────────── */
+/*
+  .btn-primary  — hollow golden border → fills on hover with shimmer sweep
+  .btn-ghost    — subtle parchment border, no fill
+*/
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.6rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold-300);
+  border: 1px solid var(--color-gold-500);
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The shimmer sweep layer */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    oklch(70% 0.15 80 / 0.15) 40%,
+    oklch(70% 0.15 80 / 0.06) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.55s ease;
+}
+
+/* The fill layer */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-600) 0%,
+    var(--color-gold-500) 50%,
+    var(--color-gold-600) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.btn-primary:hover {
+  color: var(--color-ink-900);
+  border-color: var(--color-gold-400);
+  box-shadow:
+    0 0 20px oklch(70% 0.15 80 / 0.4),
+    inset 0 0 20px oklch(70% 0.15 80 / 0.05);
+}
+
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-primary:hover::after  { opacity: 1; }
+
+.btn-primary:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-parchment-300);
+  border: 1px solid var(--color-ink-500);
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.btn-ghost:hover {
+  color: var(--color-gold-300);
+  border-color: var(--color-gold-600);
+}
+
+/* ─── Card ──────────────────────────────────────────────────────────────────── */
+
+.card-victorian {
+  background: var(--color-ink-800);
+  border: 1px solid var(--color-ink-600);
+  border-radius: 4px;
+  position: relative;
+  /* Gold accent line at the top */
+  border-top: 2px solid var(--color-gold-600);
+  transition: border-top-color 0.3s, box-shadow 0.3s;
+}
+
+.card-victorian:hover {
+  border-top-color: var(--color-gold-400);
+  box-shadow: 0 4px 24px oklch(10% 0.02 60 / 0.6);
+}
+
+/* ─── Animated underline for links ──────────────────────────────────────────── */
+
+.link-gold {
+  position: relative;
+  color: var(--color-gold-400);
+  text-decoration: none;
+}
+
+.link-gold::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-gold-400);
+  transition: width 0.3s ease;
+}
+
+.link-gold:hover::after { width: 100%; }
+.link-gold:hover { color: var(--color-gold-300); }
+
+/* ─── Keyframe animations ───────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* ─── Prose ─────────────────────────────────────────────────────────────────── */
+
 .prose-bookclub {
-  line-height: 1.8;
-  color: var(--color-cream-200);
-}
-
-.prose-bookclub p + p {
-  margin-top: 1em;
+  line-height: 1.85;
+  color: var(--color-parchment-200);
+  font-family: var(--font-cormorant);
+  font-size: 1.1rem;
 }

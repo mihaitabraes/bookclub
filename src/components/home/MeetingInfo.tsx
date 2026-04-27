@@ -4,31 +4,41 @@ interface MeetingInfoProps {
 }
 
 export default function MeetingInfo({ date, location }: MeetingInfoProps) {
-  // Format the date in a friendly, readable way
-  const formatted = date.toLocaleDateString("en-GB", {
-    weekday: "long",
+  const dayName = date.toLocaleDateString("en-GB", { weekday: "long" });
+  const dateStr = date.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
-
   const time = date.toLocaleTimeString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   return (
-    <section className="bg-navy-800 rounded-lg p-6 border border-navy-700">
-      <p className="text-sm uppercase tracking-widest text-amber-400 mb-3">
+    <div className="card-victorian p-6 flex flex-col gap-3">
+      <p className="font-cinzel text-[0.6rem] tracking-[0.25em] uppercase text-gold-400">
         Next Meeting
       </p>
-      <p className="font-(family-name:--font-playfair) text-2xl text-cream-50">
-        {formatted}
-      </p>
-      <p className="text-cream-300 mt-1">{time}</p>
+
+      <div>
+        <p className="font-cormorant font-semibold text-2xl text-parchment-50">
+          {dayName}
+        </p>
+        <p className="font-cormorant italic text-lg text-parchment-200">
+          {dateStr}
+        </p>
+      </div>
+
+      <div className="flex items-center gap-3 mt-1">
+        {/* Small clock ornament */}
+        <span className="text-gold-500 text-sm">◆</span>
+        <p className="font-cinzel text-xs tracking-widest text-parchment-300">{time}</p>
+      </div>
+
       {location && (
-        <p className="text-muted text-sm mt-2">{location}</p>
+        <p className="text-sm text-dust mt-1">{location}</p>
       )}
-    </section>
+    </div>
   );
 }

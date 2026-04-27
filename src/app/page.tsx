@@ -3,13 +3,6 @@ import MeetingInfo from "@/components/home/MeetingInfo";
 import ReadingProgress from "@/components/home/ReadingProgress";
 import type { Book } from "@/types";
 
-/*
-  HOME PAGE — static hardcoded data for now (Step 2 of build order).
-  Once Supabase is connected (Step 3) we'll replace this with real DB queries.
-  Because this is a Server Component (no "use client"), the data fetching
-  will eventually happen here on the server — fast, no loading spinners.
-*/
-
 const CURRENT_BOOK: Book = {
   id: "1",
   title: "Demon Copperhead",
@@ -29,22 +22,30 @@ const MEETING_LOCATION = "Mihaita's place";
 
 export default function HomePage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 flex flex-col gap-12">
+    <div className="max-w-4xl mx-auto px-6 py-16 flex flex-col gap-16">
 
-      {/* Hero tagline */}
-      <div className="text-center">
-        <h1 className="font-(family-name:--font-playfair) text-5xl text-cream-50 leading-tight">
+      {/* ── Hero ── */}
+      <div className="text-center flex flex-col items-center gap-4">
+        <p className="font-cinzel text-[0.6rem] tracking-[0.4em] uppercase text-gold-500">
+          Est. 2026
+        </p>
+        <h1 className="font-cinzel text-5xl sm:text-6xl tracking-[0.12em] uppercase text-parchment-50">
           Late Chapter
         </h1>
-        <p className="text-muted mt-3 text-lg italic">
+        {/* Ornamental rule under title */}
+        <div className="ornament w-64 text-gold-500">✦</div>
+        <p className="font-cormorant italic text-xl text-parchment-300 mt-1">
           Reading in the margins of a full day
         </p>
       </div>
 
-      {/* Current book */}
+      {/* ── Current book ── */}
       <CurrentBook book={CURRENT_BOOK} />
 
-      {/* Meeting + progress — side by side on wider screens */}
+      {/* ── Ornamental section divider ── */}
+      <div className="ornament text-gold-600">❧</div>
+
+      {/* ── Meeting + progress cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <MeetingInfo date={NEXT_MEETING} location={MEETING_LOCATION} />
         <ReadingProgress
