@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/*
+  We define our custom design tokens here using Tailwind v4's @theme block.
+  This replaces tailwind.config.js — all custom colors, fonts, and spacing
+  live here and become available as Tailwind utility classes automatically.
+*/
+@theme {
+  /* Colour palette — warm dark literary */
+  --color-navy-950: #0b0f1a;
+  --color-navy-900: #0f1623;
+  --color-navy-800: #161e2e;
+  --color-navy-700: #1e2a3e;
+  --color-navy-600: #263348;
+
+  --color-cream-50:  #fdf8f0;
+  --color-cream-100: #f5e6c8;
+  --color-cream-200: #ead4a8;
+  --color-cream-300: #dfc28a;
+
+  --color-amber-400: #d4a853;
+  --color-amber-500: #c4942f;
+  --color-amber-600: #a97c1f;
+
+  --color-muted: #8899aa;
+
+  /* Typography */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans:  "Inter", system-ui, sans-serif;
+}
+
+/* Base styles */
+:root {
+  background-color: var(--color-navy-900);
+  color: var(--color-cream-100);
+  font-family: var(--font-sans);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prose helpers used for book descriptions and reviews */
+.prose-bookclub {
+  line-height: 1.8;
+  color: var(--color-cream-200);
+}
+
+.prose-bookclub p + p {
+  margin-top: 1em;
+}
